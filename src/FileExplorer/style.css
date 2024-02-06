@@ -1,0 +1,11 @@
+.FileExplorer {
+  width: 80%;
+  margin: auto;
+  max-width: max-content;
+}
+.FileExplorer .node-title {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
