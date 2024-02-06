@@ -27,6 +27,9 @@ const TreeNode = ({
   handleRightClick,
 }: TreeNodeType) => {
   const isFile = type === FileType.FILE;
+  const bgColor = searchText ? (isMatch(title, searchText) ? '#374151': '#fafafa') : (activeItem ===  nodeKey ? '#374151' : '#fafafa');
+  const textColor = searchText ? (isMatch(title, searchText) ? '#fafafa': '#374151') : (activeItem ===  nodeKey ? '#fafafa' : '#374151');
+  
   return (
     <div onClick={(ev) => {
       ev.stopPropagation();
@@ -38,7 +41,7 @@ const TreeNode = ({
         handleRightClick(ev, nodeKey)
       }}
       style={{ borderLeft: isFile ? '1px solid #030712' : 'none' }}>
-      <span className="node-title" style={{ background: searchText && isMatch(title, searchText) ? '#374151': '#fafafa'}}>
+      <span className="node-title" style={{ background: bgColor, color: textColor }}>
         <img className='file-icon' alt={type} src={getIcon(type, expanded)} />
         {title}
       </span>
