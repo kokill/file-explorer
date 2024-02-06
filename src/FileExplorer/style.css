@@ -9,6 +9,10 @@
   gap: 2px;
   cursor: pointer;
 }
+.FileExplorer .file-icon {
+  width: 30px;
+  height: 30px;
+}
 
 .FileExplorer .searchBox {
   padding: 5px 10px;

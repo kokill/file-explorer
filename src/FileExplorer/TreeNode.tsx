@@ -27,7 +27,6 @@ const TreeNode = ({
   handleRightClick,
 }: TreeNodeType) => {
   const isFile = type === FileType.FILE;
-  console.log("STT", searchText, title);
   return (
     <div onClick={(ev) => {
       ev.stopPropagation();
@@ -40,7 +39,7 @@ const TreeNode = ({
       }}
       style={{ borderLeft: isFile ? '1px solid #030712' : 'none' }}>
       <span className="node-title" style={{ background: searchText && isMatch(title, searchText) ? '#374151': '#fafafa'}}>
-        <img alt={type} src={getIcon(type, expanded)} />
+        <img className='file-icon' alt={type} src={getIcon(type, expanded)} />
         {title}
       </span>
       {type === 'folder' && <div style={{ marginLeft: '10px' }}>{children}</div>}
