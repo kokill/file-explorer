@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+#context-menu ul {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#context-menu ul li {
+  padding: 2px;
+  list-style-type: none;
+}
+#context-menu ul li:hover {
+  background-color: #aaa;
+}
