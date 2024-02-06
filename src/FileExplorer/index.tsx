@@ -7,9 +7,9 @@ import './style.css';
 
 
 const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handleRightClick }: TreeData) => {
-  const newKey = nodeKey + ':' + tree.name;
+  const newKey = nodeKey ? nodeKey + '-' + tree.name : tree.name!;
   if (tree.type === FileType.FILE) {
-    <TreeNode key={nodeKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
+    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
   };
   return (
     <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[newKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
