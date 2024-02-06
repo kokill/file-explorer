@@ -12,7 +12,7 @@ const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handle
     <TreeNode key={nodeKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
   };
   return (
-    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[nodeKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
+    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[newKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
       {treeState[newKey] && tree?.data?.map((item) => getTreeData({ tree: item, nodeKey: newKey, handleClick, treeState, activeItem, handleRightClick }))}
     </TreeNode>
   )
