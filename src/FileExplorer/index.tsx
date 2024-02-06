@@ -1,27 +1,25 @@
 import React from "react";
 import { tree_data } from './treedata';
 import TreeNode from "./TreeNode";
+import { searchTree } from './util';
+import { FileType, TreeData, TreeState } from './types';
 import './style.css';
 
-type Tree = {
-  type: string | "file" | "folder";
-  name?: string;
-  data?: Array<any>;
-};
 
-const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handleRightClick }: { tree: Tree, nodeKey: string, handleClick: any, activeItem: string, treeState: Record<string, boolean>, handleRightClick: any }) => {
-  if (tree.type === 'file') {
-    <TreeNode title={tree.name!} nodeKey={nodeKey + ':' + tree.name} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
+const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handleRightClick }: TreeData) => {
+  const newKey = nodeKey + ':' + tree.name;
+  if (tree.type === FileType.FILE) {
+    <TreeNode key={nodeKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
   };
   return (
-    <TreeNode title={tree.name!} nodeKey={nodeKey + ':' + tree.name} type={tree.type} handleClick={handleClick} expanded={treeState[nodeKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
-      {treeState[nodeKey + ':' + tree.name] && tree?.data?.map((item) => getTreeData({ tree: item, nodeKey: nodeKey + ':' + tree.name, handleClick, treeState, activeItem, handleRightClick }))}
+    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[nodeKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
+      {treeState[newKey] && tree?.data?.map((item) => getTreeData({ tree: item, nodeKey: newKey, handleClick, treeState, activeItem, handleRightClick }))}
     </TreeNode>
   )
 }
 
 const FileExplorer: React.FC = () => {
-  const [treeState, setTreeState] = React.useState<Record<string, boolean>>({});
+  const [treeState, setTreeState] = React.useState<TreeState>({});
   const [activeItem, setActiveItem] = React.useState<string>('');
   const [showMenu, setShowMenu] = React.useState(false);
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
@@ -39,18 +37,27 @@ const FileExplorer: React.FC = () => {
     setShowMenu(true);
     setPosition({ x: e.clientX, y: e.clientY });
   };
-  
+
   const handleMenuClick = (e: any) => {
     // window.alert(e.target.getAttribute("data-id"));
     console.log("on menu click", e.target.getAttribute("data-id"));
   };
-  
+
   const handleClickOutside = (e: any) => {
     if (itemRef?.current && !itemRef.current.contains(e.target)) {
       console.log("Outside click");
       setShowMenu(false);
     }
   };
+
+  React.useEffect(() => {
+    const str = searchText && searchText.trim();
+    if (str) {
+      const found = searchTree(str, tree_data);
+      // find file  
+      console.log(found);
+    }
+  }, [searchText]);
 
   React.useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);

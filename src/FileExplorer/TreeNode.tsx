@@ -1,14 +1,14 @@
 import React from 'react';
 import FileIcon from '../file.svg';
 import './style.css';
+import { TreeNodeType, FileType } from './types';
 import FolderOpenIcon from '../folder_open.svg';
 import FolderCloseIcon from '../folder_close.svg';
 
-
 const getIcon = (type: string, expanded: boolean) => {
-  if (type === 'file') {
+  if (type === FileType.FILE) {
     return FileIcon;
-  } else if (type === 'folder' && expanded) {
+  } else if (type === FileType.FOLDER && expanded) {
     return FolderOpenIcon;
   }
   return FolderCloseIcon;
@@ -23,17 +23,8 @@ const TreeNode = ({
   activeItem,
   handleClick,
   handleRightClick,
-}: {
-  type: string,
-  title: string,
-  nodeKey: string,
-  expanded?: boolean,
-  handleRightClick: (ev: React.MouseEvent<HTMLElement>, key: string) => void;
-  handleClick: (key: string) => void;
-  activeItem: string,
-  children?: React.ReactNode
-}) => {
-  const isFile = type === 'file';
+}: TreeNodeType) => {
+  const isFile = type === FileType.FILE;
   return (
     <div onClick={(ev) => {
       ev.stopPropagation();
