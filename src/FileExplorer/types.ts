@@ -17,6 +17,7 @@ export type TreeData = {
   nodeKey: string;
   activeItem: string;
   treeState: TreeState;
+  searchText?: string;
   handleClick: (key: string) => void;
   handleRightClick: (ev: React.MouseEvent<HTMLElement>, key: string) => void;
 };
@@ -27,6 +28,7 @@ export type TreeNodeType = {
   nodeKey: string;
   expanded?: boolean;
   activeItem: string;
+  searchText?: string;
   children?: React.ReactNode;
   handleRightClick: (ev: React.MouseEvent<HTMLElement>, key: string) => void;
   handleClick: (key: string) => void;

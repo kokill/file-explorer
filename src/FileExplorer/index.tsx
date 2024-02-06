@@ -6,14 +6,14 @@ import { FileType, TreeData, TreeState } from './types';
 import './style.css';
 
 
-const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handleRightClick }: TreeData) => {
+const getTreeData = ({ tree, nodeKey, handleClick, treeState, activeItem, handleRightClick, searchText }: TreeData) => {
   const newKey = nodeKey ? nodeKey + '-' + tree.name : tree.name!;
   if (tree.type === FileType.FILE) {
-    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
+    <TreeNode key={newKey} searchText={searchText} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} activeItem={activeItem} handleRightClick={handleRightClick} />
   };
   return (
-    <TreeNode key={newKey} title={tree.name!} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[newKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
-      {treeState[newKey] && tree?.data?.map((item) => getTreeData({ tree: item, nodeKey: newKey, handleClick, treeState, activeItem, handleRightClick }))}
+    <TreeNode key={newKey} title={tree.name!} searchText={searchText} nodeKey={newKey} type={tree.type} handleClick={handleClick} expanded={treeState[newKey]} activeItem={activeItem} handleRightClick={handleRightClick}>
+      {treeState[newKey] && tree?.data?.map((item) => getTreeData({ tree: item, nodeKey: newKey, handleClick, treeState, activeItem, handleRightClick, searchText }))}
     </TreeNode>
   )
 }
@@ -53,9 +53,22 @@ const FileExplorer: React.FC = () => {
   React.useEffect(() => {
     const str = searchText && searchText.trim();
     if (str) {
-      const found = searchTree(str, tree_data);
-      // find file  
-      console.log(found);
+      const found = searchTree(str, tree_data, '');
+      if(typeof found === 'string') {
+        return;
+      }
+      // code for expanding my tree node. since its collapsed by default
+      const stateObj = found?.reduce((p: any, c: string) => {
+        const allnodes = c.split("-");
+        for (let i = 1;i<allnodes.length;i+=1) {
+          const str = allnodes.slice(0, i);
+          p[str.join('-')] = true; 
+        }
+        return p;
+      }, {});
+      if(found.length) {
+        setTreeState(stateObj);
+      }
     }
   }, [searchText]);
 
@@ -69,7 +82,7 @@ const FileExplorer: React.FC = () => {
     <div className="FileExplorer">
       <h2>File Explorer</h2>
       <input className="searchBox" placeholder="Search files here" onChange={(e) => setSearchText(e.target.value)} />
-      {getTreeData({ tree: tree_data, nodeKey: '', handleClick, treeState, activeItem, handleRightClick })}
+      {getTreeData({ tree: tree_data, nodeKey: '', handleClick, treeState, activeItem, handleRightClick, searchText })}
       {showMenu &&
         <div id="context-menu" ref={itemRef} style={{ left: position.x, top: position.y }}>
           <ul>
