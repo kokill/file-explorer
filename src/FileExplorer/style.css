@@ -9,6 +9,12 @@
   gap: 2px;
   cursor: pointer;
 }
+
+.FileExplorer .searchBox {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+};
+
 #context-menu { 
   position: absolute;
   padding: 0 2px;

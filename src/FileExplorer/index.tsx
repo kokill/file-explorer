@@ -26,6 +26,7 @@ const FileExplorer: React.FC = () => {
   const [showMenu, setShowMenu] = React.useState(false);
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
   const itemRef = React.useRef<HTMLDivElement>(null);
+  const [searchText, setSearchText] = React.useState<string>('');
 
 
   const handleClick = (nodeKey: string) => {
@@ -60,6 +61,7 @@ const FileExplorer: React.FC = () => {
   return (
     <div className="FileExplorer">
       <h2>File Explorer</h2>
+      <input className="searchBox" placeholder="Search files here" onChange={(e) => setSearchText(e.target.value)} />
       {getTreeData({ tree: tree_data, nodeKey: '', handleClick, treeState, activeItem, handleRightClick })}
       {showMenu &&
         <div id="context-menu" ref={itemRef} style={{ left: position.x, top: position.y }}>
